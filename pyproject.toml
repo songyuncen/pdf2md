@@ -1,0 +1,15 @@
+[project]
+name = "unlimited-ocr"
+version = "0.2.0"
+description = "PDF to Markdown converter using MinerU Open API"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "mineru-open-sdk",
+    "pymupdf",
+]
+
+[[tool.uv.index]]
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
