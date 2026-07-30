@@ -3,6 +3,10 @@ __pycache__/
 *.pyc
 .zcode/
 
+dist/
+build/
+*.spec
+
 input/*
 !input/.gitkeep
 output/*

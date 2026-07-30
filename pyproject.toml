@@ -1,5 +1,5 @@
 [project]
-name = "unlimited-ocr"
+name = "pdf2md"
 version = "0.2.0"
 description = "PDF to Markdown converter using MinerU Open API"
 readme = "README.md"
@@ -13,3 +13,8 @@ dependencies = [
 name = "aliyun"
 url = "https://mirrors.aliyun.com/pypi/simple/"
 default = true
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.21.0",
+]
