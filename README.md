@@ -49,9 +49,32 @@ uv run pdf2md.py paper.pdf --model pipeline
 |------|---------|-------------|
 | `-o, --output` | `output` | Output directory |
 | `--model` | `vlm` | Model: `vlm` (high accuracy) or `pipeline` (fast) |
-| `--language` | `ch` | Document language |
+| `--language` | `ch` | Document language (see below) |
 | `--pages` | all | Page range, e.g. `1-20` or `1-5,10-15` |
 | `--token` | `$MINERU_TOKEN` | API token |
+
+### Language support
+
+The `--language` parameter selects the OCR model for the pipeline backend. The VLM model has native multilingual support and is largely unaffected by this setting.
+
+| Code | Languages |
+|------|-----------|
+| `ch` | Chinese, English, Japanese, Traditional Chinese, Latin (default) |
+| `ch_server` | Chinese (server-side model) |
+| `korean` | Korean |
+| `ta` | Tamil |
+| `te` | Telugu |
+| `ka` | Kannada |
+| `th` | Thai |
+| `el` | Greek |
+| `arabic` | Arabic |
+| `east_slavic` | Russian, Ukrainian, Belarusian, etc. |
+| `cyrillic` | Other Cyrillic-script languages |
+| `devanagari` | Hindi, Sanskrit, Marathi, etc. |
+
+The underlying OCR engine (PP-OCRv6) supports 109 languages in total; MinerU groups them into the categories above. For most Chinese/English documents, the default `ch` is sufficient.
+
+Reference: [MinerU CLI documentation](https://opendatalab.github.io/MinerU/usage/cli_tools/)
 
 ## Build exe
 
