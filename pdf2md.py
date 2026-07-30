@@ -34,6 +34,7 @@ def extract_pages(pdf_path: str, pages: str) -> str:
     doc.close()
 
     tmp = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False)
+    tmp.close()
     new_doc.save(tmp.name)
     new_doc.close()
     print(f"Extracted {len(indices)} pages locally -> {tmp.name}")
