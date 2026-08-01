@@ -76,11 +76,54 @@ uv run pdf2md.py paper.pdf --model pipeline
 
 参考：[MinerU CLI 文档](https://opendatalab.github.io/MinerU/usage/cli_tools/)
 
+## 高亮提取（本地，无需 Token）
+
+从 PDF 的 **Highlight 标注** 中提取文字，按颜色倾向生成 Markdown：
+
+| 颜色倾向 | 语义 |
+|----------|------|
+| 偏红（粉、橙红、深红…） | 重点 / 错误 |
+| 偏黄（浅黄、金、橙黄…） | 要点 |
+| 偏绿（青绿、翠绿、浅绿…） | 定义 |
+| 其他（蓝/紫/灰等） | 其他（附 RGB） |
+
+颜色按 **色相倾向** 归类，不是精确 RGB 匹配。仅支持阅读器写入的 Highlight 注释；若高亮已压成图片且无标注对象，则无法提取。
+
+```bash
+# 提取高亮为 Markdown
+uv run python highlights2md.py book.pdf -o output
+
+# 指定页、按颜色分组、同时输出 JSON
+uv run python highlights2md.py book.pdf --pages 1-50 --group-by color --json -o output
+
+# 调试：在标签旁显示原始颜色
+uv run python highlights2md.py book.pdf --show-color
+```
+
+输出文件：`output/{文件名}_highlights.md`（可选 `_highlights.json`）。
+
+```bash
+# 运行测试
+uv run python -m unittest tests.test_highlights2md -v
+```
+
 ## 打包 exe
 
 ```bash
-uv run pyinstaller --onefile --name pdf2md pdf2md.py
+# 全文转 MD（MinerU）
+uv run pyinstaller --noconfirm pdf2md.spec
 # 输出：dist/pdf2md.exe
+
+# 高亮提取（本地）
+uv run pyinstaller --noconfirm highlights2md.spec
+# 输出：dist/highlights2md.exe
+```
+
+无 Python 环境时直接运行：
+
+```bash
+dist\highlights2md.exe book.pdf -o output
+dist\highlights2md.exe book.pdf --pages 1-50 --group-by color --json
 ```
 
 ## 许可证

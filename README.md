@@ -76,11 +76,54 @@ The underlying OCR engine (PP-OCRv6) supports 109 languages in total; MinerU gro
 
 Reference: [MinerU CLI documentation](https://opendatalab.github.io/MinerU/usage/cli_tools/)
 
+## Highlight extraction (local, no token)
+
+Extract text from PDF **Highlight annotations** into Markdown, classified by color *tendency* (not exact RGB):
+
+| Color tendency | Meaning |
+|----------------|---------|
+| Reddish (pink, orange-red, deep red…) | Important / error |
+| Yellowish (light yellow, gold…) | Key point |
+| Greenish (teal, lime, light green…) | Definition |
+| Other (blue/purple/gray…) | Other (with RGB) |
+
+Only Highlight annotations are supported (typical reader markups). Flattened/graphic “highlights” without annotation objects cannot be extracted.
+
+```bash
+# Extract highlights to Markdown
+uv run python highlights2md.py book.pdf -o output
+
+# Page range, group by color, also write JSON
+uv run python highlights2md.py book.pdf --pages 1-50 --group-by color --json -o output
+
+# Debug: show raw hex color next to labels
+uv run python highlights2md.py book.pdf --show-color
+```
+
+Output: `output/{name}_highlights.md` (optional `_highlights.json`).
+
+```bash
+# Run tests
+uv run python -m unittest tests.test_highlights2md -v
+```
+
 ## Build exe
 
 ```bash
-uv run pyinstaller --onefile --name pdf2md pdf2md.py
+# Full PDF → Markdown (MinerU)
+uv run pyinstaller --noconfirm pdf2md.spec
 # Output: dist/pdf2md.exe
+
+# Highlight extraction (local)
+uv run pyinstaller --noconfirm highlights2md.spec
+# Output: dist/highlights2md.exe
+```
+
+Run without Python:
+
+```bash
+dist\highlights2md.exe book.pdf -o output
+dist\highlights2md.exe book.pdf --pages 1-50 --group-by color --json
 ```
 
 ## License
